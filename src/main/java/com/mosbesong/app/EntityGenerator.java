@@ -32,7 +32,7 @@ public class EntityGenerator
 	private void createEntitDirectory()
 	{
 		String directoryPath = new File("").getAbsolutePath();
-		File newDirectory = new File(directoryPath, "entity");
+		File newDirectory = new File(directoryPath, "entities");
 
 		if(!newDirectory.exists()) newDirectory.mkdir();
 	}
@@ -45,7 +45,7 @@ public class EntityGenerator
 	private void createEntityFile()
 	{
 		String directoryPath = new File("").getAbsolutePath();
-		Path newFilePath = Paths.get(directoryPath + "/entity/" + json.get("entity") + ".java");
+		Path newFilePath = Paths.get(directoryPath + "/entities/" + json.get("entity") + ".java");
 
 		try{
 			Files.createFile(newFilePath);
@@ -53,14 +53,14 @@ public class EntityGenerator
 			System.out.println(e.getMessage());
 		}
 
-		entityFileName = directoryPath + "/entity/" + json.get("entity") + ".java";
+		entityFileName = directoryPath + "/entities/" + json.get("entity") + ".java";
 	}
 
 	private void writeClassToFile(){
 		try{
 			String str = getTemplateContent().
 				replace("{{entity-name}}", json.get("entity").toString()).
-				replace("{{package-name}}", json.get("package").toString());
+				replace("{{package-name}}", json.get("package").toString() + ".entities");
 			str = addClassProperties(str);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(entityFileName));
 			writer.write(str);

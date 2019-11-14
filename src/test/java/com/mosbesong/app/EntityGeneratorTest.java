@@ -26,10 +26,10 @@ public class EntityGeneratorTest
 		CrudGenerator crudGenerator = new CrudGenerator(arguments);
 		crudGenerator.start();
 
-		File entityFile = new File("entity/" + entityName + ".java");
+		File entityFile = new File("entities/" + entityName + ".java");
 		Assert.assertTrue(entityFile.exists());
 		deleteFile("file.json");
-		deleteFile("entity/" + entityName + ".java");
+		deleteFile("entities/" + entityName + ".java");
 		deleteFile("entity");
 	}
 
@@ -45,15 +45,15 @@ public class EntityGeneratorTest
 		CrudGenerator crudGenerator = new CrudGenerator(arguments);
 		crudGenerator.start();
 
-		File entityFile = new File("entity/" + entityName + ".java");
+		File entityFile = new File("entities/" + entityName + ".java");
 		Path path = entityFile.toPath();
 		Assert.assertTrue(Files.readAllLines(path).get(16).
 				contains("public class " + entityName + " {"));
 		Assert.assertTrue(Files.readAllLines(path).get(0).
-				contains("package x.y.z;"));
+				contains("package x.y.z.entities;"));
 		
 		deleteFile("file.json");
-		deleteFile("entity/" + entityName + ".java");
+		deleteFile("entities/" + entityName + ".java");
 		deleteFile("entity");
 	}
 
@@ -79,7 +79,7 @@ public class EntityGeneratorTest
 		String[] arguments = {"file.json"};
 		CrudGenerator crudGenerator = new CrudGenerator(arguments);
 		crudGenerator.start();
-		File entityFile = new File("entity/" + entityName + ".java");
+		File entityFile = new File("entities/" + entityName + ".java");
 		Path path = entityFile.toPath();
 
 		String content = "";
