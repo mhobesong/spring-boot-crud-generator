@@ -57,6 +57,47 @@ public class EntityGeneratorTest
 		deleteFile("entity");
 	}
 
+	@Test
+	public void should_write_entiy_properties() 
+		throws Exception
+	{
+		BufferedWriter writer = new BufferedWriter(new FileWriter("file.json"));
+		String entityName = "TestEntity" + (int)Math.ceil((1 + (Math.random() * 10)));
+
+		writer.write("{\"entity\":\"" + entityName + "\",\"package\":\"x.y.z\"," + 
+				"properties:[" +
+				"{\"name\":\"firstname\",\"type\":\"text\",\"length\":255,\"validation\":\"required\"}," +
+				"{\"name\":\"lastname\",\"type\":\"text\",\"length\":256}," +
+				"{\"name\":\"status\",\"type\":\"text\",\"length\":256,\"validation\":\"required|in[acitve,pending]\",\"default\":\"active\"}," +
+				"{\"name\":\"age\",\"type\":\"integer\",\"validation\":\"required\",\"default\":25}," +
+				"{\"name\":\"email\",\"type\":\"text\",\"validation\":\"required|email|unique\"}," +
+				"{\"name\":\"dob\",\"type\":\"date\",\"validation\":\"required|date\"}" +
+				"]" +
+				"}");
+
+		writer.close();
+		String[] arguments = {"file.json"};
+		CrudGenerator crudGenerator = new CrudGenerator(arguments);
+		crudGenerator.start();
+		File entityFile = new File("entity/" + entityName + ".java");
+		Path path = entityFile.toPath();
+
+		String content = "";
+		for(int i = 0; i < Files.readAllLines(path).size(); i++ ) content += Files.readAllLines(path).get(i) + "\n";
+
+		Assert.assertTrue(content.contains("@Column(name=\"firstname\", columnDefinition=\"VARCHAR(255) NOT NULL\")\n\tprivate String firstname;"));
+
+		Assert.assertTrue(content.contains("\t@Column(name=\"lastname\", columnDefinition=\"VARCHAR(256)\")\n\tprivate String lastname;"));
+		
+		Assert.assertTrue(content.contains("\t@Column(name=\"status\", columnDefinition=\"VARCHAR(256) NOT NULL DEFAULT 'active'\")\n\tprivate String status;"));
+
+		Assert.assertTrue(content.contains("\t@Column(name=\"age\", columnDefinition=\"INTEGER NOT NULL DEFAULT 25\")\n\tprivate String age;"));
+
+		Assert.assertTrue(content.contains("\t@Column(name=\"email\", columnDefinition=\"VARCHAR(256) NOT NULL UNIQUE\")\n\tprivate String email;"));
+
+		Assert.assertTrue(content.contains("\t@Column(name=\"dob\", columnDefinition=\"DATE NOT NULL\")\n\tprivate String dob;"));
+	}
+
 	private void deleteFile(String filePath)
 	{
 		File file = new File(filePath);

@@ -16,7 +16,6 @@ public class App
 		if (args.length == 0) noPathToJsonError();
 		else{
 			entityDescriptionJsonPath = args[0];
-			System.out.println(args[0]);
 		}
     }
 
