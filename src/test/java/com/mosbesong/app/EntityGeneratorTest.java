@@ -28,9 +28,7 @@ public class EntityGeneratorTest
 
 		File entityFile = new File("entities/" + entityName + ".java");
 		Assert.assertTrue(entityFile.exists());
-		deleteFile("file.json");
-		deleteFile("entities/" + entityName + ".java");
-		deleteFile("entity");
+		deleteDirectory(new File("entities"));
 	}
 
 	@Test
@@ -52,9 +50,7 @@ public class EntityGeneratorTest
 		Assert.assertTrue(Files.readAllLines(path).get(0).
 				contains("package x.y.z.entities;"));
 		
-		deleteFile("file.json");
-		deleteFile("entities/" + entityName + ".java");
-		deleteFile("entity");
+		deleteDirectory(new File("entities"));
 	}
 
 	@Test
@@ -96,13 +92,19 @@ public class EntityGeneratorTest
 		Assert.assertTrue(content.contains("\t@Column(name=\"email\", columnDefinition=\"VARCHAR(256) NOT NULL UNIQUE\")\n\tprivate String email;"));
 
 		Assert.assertTrue(content.contains("\t@Column(name=\"dob\", columnDefinition=\"DATE NOT NULL\")\n\tprivate String dob;"));
+
+		deleteDirectory(new File("entities"));
+		(new File("file.json")).delete();
 	}
 
-	private void deleteFile(String filePath)
+	private boolean deleteDirectory(File directory)
 	{
-		File file = new File(filePath);
-		try{
-			file.delete();
-		} catch(Exception e){}
+		File[] allContents = directory.listFiles();
+		if (allContents != null) {
+			for (File file : allContents) {
+				deleteDirectory(file);
+			}
+		}
+		return directory.delete();
 	}
 }
