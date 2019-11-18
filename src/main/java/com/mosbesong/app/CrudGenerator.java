@@ -1,6 +1,5 @@
 package com.mosbesong.app;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,10 +28,11 @@ public class CrudGenerator
 
 		try {
 			Path path = Paths.get(args[0]);
-			File file = new File(args[0]);
 			String read = Files.readAllLines(path).get(0);
 			JSONObject jsonObject = new JSONObject(read);
 			EntityGenerator entityGenerator = new EntityGenerator(jsonObject);
+			RepositoryGenerator repositoryGenerator = new RepositoryGenerator(jsonObject);
+			ServiceGenerator serviceGenerator = new ServiceGenerator(jsonObject);
 		} catch (Exception e){
 			return e.getMessage();
 		}
