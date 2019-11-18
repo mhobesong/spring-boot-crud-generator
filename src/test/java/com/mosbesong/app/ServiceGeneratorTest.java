@@ -42,7 +42,7 @@ public class ServiceGeneratorTest
 		Assert.assertTrue(content.contains("private " + entityName + "Repository " + entityName.toLowerCase() + "Repository;"));
 		Assert.assertTrue(content.contains("public List<" + entityName + "> findAll() {"));
 		Assert.assertTrue(content.contains("return " + entityName.toLowerCase() + "Repository.findAll();"));
-		Assert.assertTrue(content.contains("public " + entityName + " findOne(Integer id) {"));
+		Assert.assertTrue(content.contains("public " + entityName + " findOne(long id) {"));
 		Assert.assertTrue(content.contains("return " + entityName.toLowerCase() + "Repository.findOne(id);"));
 		Assert.assertTrue(content.contains("public " + entityName + " save(" + entityName + " entity) {"));
 		Assert.assertTrue(content.contains("return " + entityName.toLowerCase() + "Repository.save(entity);"));

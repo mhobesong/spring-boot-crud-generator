@@ -89,7 +89,7 @@ public class ServiceGenerator
 				"\t\treturn " + json.get("entity").toString().toLowerCase() + "Repository.findAll();\n" +
 			"\t}\n\n" +
 
-			"\tpublic " + json.get("entity").toString() + " findOne(Integer id) {\n" +
+			"\tpublic " + json.get("entity").toString() + " findOne(long id) {\n" +
 				"\t\treturn " + json.get("entity").toString().toLowerCase() + "Repository.findOne(id);\n" +
 			"\t}\n\n" +
 
